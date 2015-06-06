@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Online Store</title>
+    
+     <style type="text/css">
+        .ui-growl {
+            left:20px;
+            }
+    </style>
+</h:head>
+
+<h:body>
+    <h:outputStylesheet library="css" name="primefaces.css" />
+    
+    <h:form id="form">
+        <p:growl autoUpdate="true" life="5000" />
+        
+        <p:toolbar>
+            <f:facet name="left">
+                 <span class="ui-separator" style="width:300px"/>
+                
+                <p:remoteCommand name="test" action="#{listBean.read}" update="form" />
+                <h:inputText id="fname" value="#{listBean.search}" 
+                        required="true" 
+                        requiredMessage="Título não informado." 
+                        size="50" maxlength="20" 
+                        onkeypress="if (event.keyCode == 13) {test(); return false; }"
+                        title="APERTE ENTER PARA PESQUISAR"
+                        onclick="select()"/>
+                <p:watermark for="fname" value="Pesquise por título (aperte enter)" />
+          </f:facet>
+          
+          <f:facet name="right">
+                <p:commandButton value="Cart" 
+                        action="cart?faces-redirect=true"
+                        immediate="true"/>
+                
+                <span class="ui-separator" style="width:20px"/>
+                
+                <p:commandLink value="Login" 
+                        action="login?faces-redirect=true"
+                        rendered="#{itemBean.user.isEmpty()}"
+                        immediate="true"/>
+        
+                <span class="ui-separator" />
+
+                <p:commandButton value="Logout" 
+                        action="#{itemBean.logout}"
+                        rendered="#{!itemBean.user.isEmpty()}"
+                        update=":form"
+                        immediate="true"/>    
+
+                <span class="ui-separator" />
+
+                <p:outputLabel value="Hello #{itemBean.user}"
+                    rendered="#{!itemBean.user.isEmpty()}"/>
+                    
+                <span class="ui-separator" style="width:20px"/>
+            </f:facet>
+        </p:toolbar>
+        
+           <!-- DataGrid Books -->
+        <p:dataGrid id="dt1" var="b" 
+            columns="3"
+            value="#{listBean.books}"
+            emptyMessage="Sua busca não encontrou nenhum resultado.">
+            
+            <p:panel style="padding:0 !important; border:none" >
+                <h:panelGrid columns="1" style="width:100%">
+            
+                    <p:graphicImage library="imagens" name="#{b.image}"/>
+                    
+                    <p:outputLabel value="Título: #{b.title}" />
+                  
+                    <h:outputText value="#{b.value}">
+                        <f:convertNumber locale="pt_BR" type="currency"
+                                minFractionDigits="2" />
+                    </h:outputText>
+                  
+                    <p:outputLabel value="Author: #{b.author}"/>
+                  
+                    <p:commandLink update=":form:detalhe"
+                        immediate="true"
+                        oncomplete="PF('detalhe').show()" title="SINOPSE">
+                        
+                        <f:setPropertyActionListener value="#{b}"
+                                target="#{listBean.book}" />
+                        
+                        <h:outputText styleClass="ui-icon ui-icon-search" />
+                    </p:commandLink>
+                  
+                    <p:column>
+                        <p:commandButton value="Comprar" 
+                            action="#{itemBean.createItem(b)}"
+                            update=":form"
+                            immediate="true"/>
+                    </p:column>
+            
+                </h:panelGrid>
+            </p:panel>
+        </p:dataGrid>
+       
+        <!-- Dialog Book Description -->    
+        <p:dialog id="detalhe" header="#{listBean.book.title}"
+                resizable="false" widgetVar="detalhe" showEffect="explode"
+                modal="true" position="center" draggable="false">
+                <p>
+                    <h:outputText value="#{listBean.book.description}" />
+                </p>
+        </p:dialog>    
+        
+    </h:form>
+</h:body>
+</html>

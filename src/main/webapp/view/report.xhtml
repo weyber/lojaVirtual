@@ -1,0 +1,103 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Orders</title>
+</h:head>
+<h:body>
+    <h:form>
+            <p:toolbar>
+            <f:facet name="left">
+                <p:commandButton icon="ui-icon-arrowreturnthick-1-w"
+                        action="cart?faces-redirect=true"
+                        title="return"/>
+            </f:facet>
+        </p:toolbar>
+        
+        <p:dataTable value="#{orderBean.requestItems}" var="p"
+            style="text-align:center" 
+            emptyMessage="Nenhum pedido encontrado."
+            sortOrder="ascending" 
+            paginatorPosition="top"
+            scrollable="true" 
+            scrollHeight="500"
+            sortBy="#{p.orders.id}" >
+
+            <f:facet name="header">
+                <p:outputLabel id="user"
+                    value="Customer: #{itemBean.user}" />
+            </f:facet>
+
+            <p:column id="pedido" headerText="Order code"
+                    sortBy="#{p.orders.id}" 
+                    style="text-align:center">
+                <h:outputText value="#{p.orders.id}" />
+            </p:column>
+
+            <p:column headerText="Date Order" style="text-align:center">
+                <h:outputText value="#{p.orders.dateRequest}">
+                    <f:convertDateTime dateStyle="long" />
+                </h:outputText>
+            </p:column>
+
+            <p:column headerText="Title" style="text-align:center">
+                <h:outputText value="#{p.book.title}" />
+            </p:column>
+
+            <p:column headerText="Unit Price" style="text-align:center">
+                <p:outputLabel value="#{p.book.value}">
+                    <f:convertNumber locale="pt_BR" type="currency"
+                        minFractionDigits="2" />
+                </p:outputLabel>
+            </p:column>
+
+            <p:column headerText="Quantity" style="text-align:center">
+                <h:outputText value="#{p.quantity}" />
+            </p:column>
+
+            <p:column headerText="Value" style="text-align:center">
+                <p:outputLabel value="#{p.value}">
+                    <f:convertNumber locale="pt_BR" type="currency"
+                        minFractionDigits="2" />
+                </p:outputLabel>
+            </p:column>
+
+            <p:summaryRow>
+                <p:column colspan="5" style="text-align:right">
+                    <p:outputLabel value="SubTotal: " />
+                </p:column>
+
+                <p:column>
+                    <h:outputText value="#{orderBean.subValue(p.orders.id)}">
+                        <f:convertNumber locale="pt_BR" type="currency"
+                            minFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+            </p:summaryRow>
+
+            <f:facet name="footer">
+                <p:spacer height="10" width="800" />
+                <h:outputText value="Amount: " />
+
+                <p:spacer height="10" width="90" />
+
+                <h:outputText value="#{orderBean.totalValue}">
+                    <f:convertNumber locale="pt_BR" type="currency"
+                        minFractionDigits="2" />
+                </h:outputText>
+            </f:facet>
+
+           
+
+        </p:dataTable>
+
+        <p:commandButton value="Export Report .pdf" 
+            actionListener="#{reportBean.generateReport}" 
+            ajax="false"/>
+
+    </h:form>
+</h:body>
+</html>

@@ -1,0 +1,61 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Customer</title>
+</h:head>
+
+<h:body>
+    <h:outputStylesheet library="css" name="primefaces3.css" />
+    
+<div id="second" >
+    <h:form id="form">
+        <p:messages id="msg1" autoUpdate="true" closable="true" />
+
+        <h3>Register</h3>
+        <h:graphicImage library="images" name="divider.png" />
+
+        <p:inputText id="name" value="#{loginBean.customer.name}"
+            placeholder="Nome" required="true"
+            requiredMessage="Fill in the name field !" />
+
+        <p:inputText id="end" value="#{loginBean.customer.address}"
+            placeholder="Endereço" />
+
+        <p:inputText id="bairro"
+            value="#{loginBean.customer.neighborhood}"
+            placeholder="Bairro" />
+
+        <p:inputText id="cidade" value="#{loginBean.customer.city}"
+            placeholder="Cidade" />
+
+        <p:inputText id="estado" value="#{loginBean.customer.state}"
+            placeholder="Estado" />
+
+        <p:inputMask id="cep" value="#{loginBean.customer.zipCode}"
+            mask="99999-999" placeholder="CEP" />
+
+        <p:inputText id="username"
+            value="#{loginBean.customer.username}" 
+            placeholder="Email"
+            required="true" requiredMessage="Fill in the email field !" />
+
+        <p:password id="password" value="#{loginBean.customer.password}"
+            placeholder="Senha" required="true"
+            requiredMessage="Fill in the password field !" />
+
+        <p:commandButton value="Save" update=":form"
+            action="#{loginBean.createCustomer}" />
+        
+        <p:commandButton icon="ui-icon-arrowreturnthick-1-w"
+                        action="login?faces-redirect=true"
+                        title="return"
+                        immediate="true"/>
+
+    </h:form>
+    </div>
+</h:body>
+</html>    

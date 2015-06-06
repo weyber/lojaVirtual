@@ -1,0 +1,27 @@
+/* Below line is used to import font-family: Raleway from Google Fonts (optional)*/
+@import "http://fonts.googleapis.com/css?family=Raleway";
+
+body { 
+	background-color: #eeeff3; 
+}
+
+.ui-widget-content {
+	background-color: #eeeff3; 
+    border: none;
+}
+
+.ui-datatable table {
+	background-color: #eeeff3; 
+	table-layout: auto;
+}
+
+.ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td {
+	background-color: #eeeff3; 
+	padding: 0px;
+	border-style: none;
+	text-align: center;
+}
+
+input[type=text] {
+	text-align:center;
+}

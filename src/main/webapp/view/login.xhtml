@@ -1,0 +1,47 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Customer</title>
+</h:head>
+
+<h:body>
+    <h:outputStylesheet library="css" name="primefaces3.css" />
+    
+    <div id="first"> 
+    <h:form id="form1">
+        <p:messages id="msg" autoUpdate="true" 
+            closable="true" />
+    
+        <h3>Login</h3>
+        <h:graphicImage library="images" name="divider.png" />
+
+        <p:inputText id="user1" 
+            value="#{loginBean.customer.username}"
+            placeholder="Username" required="true"
+            requiredMessage="User not informed !" />
+
+        <p:password id="pass1" 
+            value="#{loginBean.customer.password}"
+            placeholder="Password" required="true"
+            requiredMessage="Password not informed !" />
+
+        <p:commandButton value="Login" 
+            action="#{loginBean.login}"
+            update=":form1" />
+        
+        <p:commandButton value="Register"
+            immediate="true"
+            action="register?faces-redirect=true"/> 
+            
+        <p:commandButton icon="ui-icon-arrowreturnthick-1-w"
+                        action="index?faces-redirect=true"
+                        title="return"
+                        immediate="true"/>   
+    </h:form>
+    </div>
+ </h:body>
+</html>

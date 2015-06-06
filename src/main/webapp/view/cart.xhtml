@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Cart</title>
+</h:head>
+
+<h:body>
+    <h:form id="form">
+        <h:outputStylesheet library="css" name="primefaces2.css" />
+        
+        <p:messages autoUpdate="true" closable="true"/>
+        
+        <p:toolbar>
+            <f:facet name="left">
+                <p:commandButton icon="ui-icon-arrowreturnthick-1-w"
+                        action="index?faces-redirect=true"
+                        title="return"/>
+            </f:facet>
+            
+            <f:facet name="right">
+                <p:commandButton value="Orders"
+                    action="#{orderBean.list}"
+                    rendered="#{!itemBean.user.isEmpty()}"/>        
+            </f:facet>
+        </p:toolbar>
+                 
+        <p:dataTable value="#{itemBean.items}" var="i">
+        
+            <p:column>
+                <p:outputLabel value="#{i.book.title}"/>
+            </p:column>
+            
+            <p:column>
+                <h:inputText id="qty" value="#{i.quantity}" 
+                        size="1" 
+                        maxlength="2"
+                        styleClass="teste"
+                        onclick="select()">
+                    <f:convertNumber integerOnly="true" type="number" />
+                </h:inputText>
+            </p:column>
+
+            <p:column>
+                    <p:commandButton id="update" icon="ui-icon-arrowrefresh-1-w"
+                        update=":form" />
+            </p:column>
+            
+            <p:column>
+                <h:outputText value="#{i.value}">
+                    <f:convertNumber locale="pt_BR" type="currency"
+                            minFractionDigits="2" />
+                </h:outputText>
+            </p:column>
+
+            <p:column>
+                <p:commandButton icon="ui-icon-close"
+                        actionListener="#{itemBean.items.remove(i)}" 
+                        update=":form" />
+            </p:column>
+          
+        </p:dataTable>
+        
+        <p:toolbar>
+            <f:facet name="right">
+                <h:outputText value="Valor Total " />
+                    <p:spacer width="10" />
+
+                    <h:outputText value="#{itemBean.totalValue}">
+                        <f:convertNumber locale="pt_BR" type="currency"
+                            minFractionDigits="2" />
+                    </h:outputText>
+                </f:facet>
+        </p:toolbar>
+        
+        <p:commandButton value="Finalize" 
+            rendered="#{!itemBean.items.isEmpty()}"
+            action="#{finalizeBean.end}"
+            update=":form"/>
+    </h:form>
+
+</h:body>
+</html>
